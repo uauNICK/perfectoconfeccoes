@@ -70,8 +70,8 @@ const INITIAL_SETTINGS = {
   adminUser: "admin",
   adminPass: "perfecto",
   theme: "midnight",
-  logoUrl: "",
-  faviconUrl: ""
+  logoUrl: "assets/images/logo.png",
+  faviconUrl: "assets/images/logo.png"
 };
 
 // Application State
@@ -99,7 +99,12 @@ function initState() {
   const localSettings = localStorage.getItem("perfecto_settings");
   if (localSettings) {
     settings = { ...INITIAL_SETTINGS, ...JSON.parse(localSettings) };
-    // Save it back to ensure missing fields are now persisted
+    if (!settings.logoUrl || settings.logoUrl === "") {
+      settings.logoUrl = "assets/images/logo.png";
+    }
+    if (!settings.faviconUrl || settings.faviconUrl === "") {
+      settings.faviconUrl = "assets/images/logo.png";
+    }
     localStorage.setItem("perfecto_settings", JSON.stringify(settings));
   } else {
     settings = { ...INITIAL_SETTINGS };

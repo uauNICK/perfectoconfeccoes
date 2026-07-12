@@ -73,7 +73,11 @@ const INITIAL_SETTINGS = {
   logoUrl: "assets/images/logo.png",
   faviconUrl: "assets/images/logo.png",
   logoHeightHeader: 60,
-  logoHeightFooter: 100
+  logoHeightFooter: 100,
+  storeTitle: "Perfecto Confecções",
+  storeDescription: "Venda Online de Vestuário no Varejo e Atacado Direto de Fábrica.",
+  footerAboutText: "Fabricação de vestuário de alta durabilidade e estilo desde 2012. Vestindo o Brasil com excelência.",
+  copyrightText: "© 2026 Perfecto Confecções. Todos os direitos reservados. CNPJ: 12.345.678/0001-99"
 };
 
 // Application State
@@ -113,6 +117,18 @@ function initState() {
     if (!settings.logoHeightFooter) {
       settings.logoHeightFooter = 100;
     }
+    if (!settings.storeTitle) {
+      settings.storeTitle = INITIAL_SETTINGS.storeTitle;
+    }
+    if (!settings.storeDescription) {
+      settings.storeDescription = INITIAL_SETTINGS.storeDescription;
+    }
+    if (!settings.footerAboutText) {
+      settings.footerAboutText = INITIAL_SETTINGS.footerAboutText;
+    }
+    if (!settings.copyrightText) {
+      settings.copyrightText = INITIAL_SETTINGS.copyrightText;
+    }
     localStorage.setItem("perfecto_settings", JSON.stringify(settings));
   } else {
     settings = { ...INITIAL_SETTINGS };
@@ -151,6 +167,24 @@ function updateBrandingDOM() {
   
   const whatsappBtn = document.getElementById("social-whatsapp");
   if (whatsappBtn) whatsappBtn.href = `https://wa.me/${settings.whatsapp}`;
+
+  const contactWhatsapp = document.getElementById("contact-whatsapp-btn");
+  if (contactWhatsapp) contactWhatsapp.href = `https://wa.me/${settings.whatsapp}`;
+
+  const contactEmail = document.getElementById("contact-email-btn");
+  if (contactEmail) contactEmail.href = `mailto:${settings.email}`;
+
+  // Update site title and meta description
+  document.title = `${settings.storeTitle} | Moda & Fabricação Própria Premium`;
+  const metaDesc = document.querySelector('meta[name="description"]');
+  if (metaDesc) metaDesc.setAttribute("content", settings.storeDescription);
+
+  // Update footer text and copyright
+  const footerAbout = document.getElementById("footer-text-about");
+  if (footerAbout) footerAbout.innerText = settings.footerAboutText;
+
+  const footerCopyright = document.getElementById("footer-text-copyright");
+  if (footerCopyright) footerCopyright.innerHTML = settings.copyrightText;
 
   // Apply Theme class
   document.body.classList.remove("theme-emerald", "theme-light");
@@ -1047,6 +1081,13 @@ function initAdminUI() {
     settings.faviconUrl = document.getElementById("settings-favicon-url").value;
     settings.logoHeightHeader = parseInt(document.getElementById("settings-logo-height-header").value) || 60;
     settings.logoHeightFooter = parseInt(document.getElementById("settings-logo-height-footer").value) || 100;
+    
+    // Save text properties
+    settings.storeTitle = document.getElementById("settings-store-title").value;
+    settings.storeDescription = document.getElementById("settings-store-meta-desc").value;
+    settings.footerAboutText = document.getElementById("settings-footer-about").value;
+    settings.copyrightText = document.getElementById("settings-copyright-text").value;
+
     settings.adminUser = document.getElementById("settings-admin-user").value;
     settings.adminPass = document.getElementById("settings-admin-pass").value;
 
@@ -1107,6 +1148,13 @@ function loadAdminSettings() {
   document.getElementById("settings-favicon-url").value = settings.faviconUrl || "";
   document.getElementById("settings-logo-height-header").value = settings.logoHeightHeader || 60;
   document.getElementById("settings-logo-height-footer").value = settings.logoHeightFooter || 100;
+  
+  // Populate site texts
+  document.getElementById("settings-store-title").value = settings.storeTitle || "";
+  document.getElementById("settings-store-meta-desc").value = settings.storeDescription || "";
+  document.getElementById("settings-footer-about").value = settings.footerAboutText || "";
+  document.getElementById("settings-copyright-text").value = settings.copyrightText || "";
+
   document.getElementById("settings-admin-user").value = settings.adminUser || "admin";
   document.getElementById("settings-admin-pass").value = settings.adminPass || "perfecto";
 }
@@ -1432,13 +1480,38 @@ function initLayoutUI() {
         document.getElementById("features-section").scrollIntoView({ behavior: "smooth" });
       } else if (navTarget === "contact") {
         e.preventDefault();
-        document.querySelector("footer").scrollIntoView({ behavior: "smooth" });
+        openContactModal();
       }
       
       document.querySelectorAll(".nav-links a").forEach(l => l.classList.remove("active"));
       if (link.dataset.nav) link.classList.add("active");
     });
   });
+
+  // Contact Modal Logic
+  const contactOverlay = document.getElementById("contact-modal-overlay");
+  const contactModal = document.getElementById("contact-modal");
+
+  function openContactModal() {
+    contactOverlay.classList.add("active");
+    contactModal.classList.add("active");
+  }
+
+  function closeContactModal() {
+    contactOverlay.classList.remove("active");
+    contactModal.classList.remove("active");
+  }
+
+  const heroContact = document.getElementById("hero-contact-btn");
+  if (heroContact) {
+    heroContact.addEventListener("click", (e) => {
+      e.preventDefault();
+      openContactModal();
+    });
+  }
+
+  document.getElementById("close-contact-modal").addEventListener("click", closeContactModal);
+  contactOverlay.addEventListener("click", closeContactModal);
 }
 
 // App Entry Point

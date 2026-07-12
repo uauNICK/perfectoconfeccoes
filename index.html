@@ -59,7 +59,7 @@
           <p id="hero-description">Sua confecção de confiança para roupas premium no atacado e varejo. Peças fabricadas com tecidos selecionados e excelente acabamento.</p>
           <div class="hero-ctas">
             <a href="#catalog-section" class="btn-primary">Ver Catálogo</a>
-            <a href="#contact-section" class="btn-secondary">Fale Conosco</a>
+            <a href="#" id="hero-contact-btn" class="btn-secondary">Fale Conosco</a>
           </div>
         </div>
         <div class="hero-visual">
@@ -581,6 +581,26 @@
                 </div>
               </div>
               
+              <h4 style="font-size: 1rem; margin-top: 15px; color: var(--accent-gold); border-top: 1px solid var(--glass-border); padding-top: 15px;">Textos e Informações do Site</h4>
+              <div class="checkout-form-group">
+                <div class="form-field">
+                  <label for="settings-store-title">Nome da Loja (Título da Aba)</label>
+                  <input type="text" id="settings-store-title" required placeholder="Ex: Perfecto Confecções">
+                </div>
+                <div class="form-field">
+                  <label for="settings-store-meta-desc">Descrição SEO (Meta Tag)</label>
+                  <input type="text" id="settings-store-meta-desc" required placeholder="Meta descrição do site">
+                </div>
+              </div>
+              <div class="form-field">
+                <label for="settings-footer-about">Descrição no Rodapé (Sobre a Empresa)</label>
+                <textarea id="settings-footer-about" rows="2" required placeholder="Descreva brevemente sua confecção para o rodapé"></textarea>
+              </div>
+              <div class="form-field" style="margin-bottom: 15px;">
+                <label for="settings-copyright-text">Texto de Direitos Autorais (Copyright)</label>
+                <input type="text" id="settings-copyright-text" required placeholder="Ex: © 2026 Perfecto Confecções. Todos os direitos reservados.">
+              </div>
+              
               <h4 style="font-size: 1rem; margin-top: 15px; color: var(--accent-gold); border-top: 1px solid var(--glass-border); padding-top: 15px;">Aparência e Temas</h4>
               <div class="checkout-form-group">
                 <div class="form-field">
@@ -729,6 +749,30 @@
     </div>
   </div>
 
+  <!-- Contact Choice Modal -->
+  <div class="modal-overlay" id="contact-modal-overlay"></div>
+  <div class="modal-container glass-panel-gold" id="contact-modal" style="max-width: 450px; text-align: center; z-index: 250;">
+    <button class="modal-close-btn flex-center" id="close-contact-modal">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div style="padding: 30px;">
+      <i class="fa-solid fa-comments" style="font-size: 3rem; color: var(--accent-gold); margin-bottom: 20px; display: inline-block;"></i>
+      <h3 style="margin-bottom: 10px; font-size: 1.4rem;">Fale Conosco</h3>
+      <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 25px;">
+        Como você prefere falar com a nossa equipe de vendas e atendimento?
+      </p>
+      
+      <div style="display: flex; flex-direction: column; gap: 15px;">
+        <a href="#" id="contact-whatsapp-btn" target="_blank" class="btn-primary" style="display: flex; align-items: center; justify-content: center; gap: 10px; height: 48px; background: #25d366; border-color: #25d366; color: #fff; text-decoration: none;">
+          <i class="fa-brands fa-whatsapp" style="font-size: 1.3rem;"></i> Conversar no WhatsApp
+        </a>
+        <a href="#" id="contact-email-btn" class="btn-secondary" style="display: flex; align-items: center; justify-content: center; gap: 10px; height: 48px; text-decoration: none;">
+          <i class="fa-solid fa-envelope" style="font-size: 1.1rem;"></i> Enviar E-mail
+        </a>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer>
     <div class="container footer-grid">
@@ -736,7 +780,7 @@
         <a href="#" class="footer-logo" id="footer-branding-logo">
           <i class="fa-solid fa-shirt"></i> Perfecto <span>Confecções</span>
         </a>
-        <p class="footer-desc">Fabricação de vestuário de alta durabilidade e estilo desde 2012. Vestindo o Brasil com excelência.</p>
+        <p class="footer-desc" id="footer-text-about">Fabricação de vestuário de alta durabilidade e estilo desde 2012. Vestindo o Brasil com excelência.</p>
         <div class="footer-socials">
           <a href="#" class="footer-social-btn flex-center" id="social-instagram" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
           <a href="#" class="footer-social-btn flex-center" id="social-facebook" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
@@ -780,7 +824,7 @@
     </div>
     
     <div class="container footer-bottom">
-      <p>&copy; 2026 Perfecto Confecções. Todos os direitos reservados. CNPJ: 12.345.678/0001-99</p>
+      <p id="footer-text-copyright">&copy; 2026 Perfecto Confecções. Todos os direitos reservados. CNPJ: 12.345.678/0001-99</p>
       <div class="footer-bottom-links">
         <a href="#">Termos de Uso</a>
         <a href="#">Política de Privacidade</a>

@@ -1984,3 +1984,116 @@ footer {
     text-align: center;
   }
 }
+
+/* --- THEME OVERRIDES --- */
+
+/* Emerald Luxe Theme */
+body.theme-emerald {
+  --bg-primary: #041410;
+  --bg-secondary: #08221b;
+  --bg-tertiary: #103a2f;
+  --text-primary: #f0fdf4;
+  --text-secondary: #a7f3d0;
+  --text-muted: #65a30d;
+  --accent-gold: #e2c08d;
+  --accent-gold-hover: #f3dfc1;
+  --glass-bg: rgba(8, 34, 27, 0.8);
+  --glass-bg-hover: rgba(16, 58, 47, 0.9);
+  --glass-border: rgba(255, 255, 255, 0.05);
+  --glass-border-gold: rgba(226, 192, 141, 0.2);
+}
+body.theme-emerald header {
+  background: rgba(4, 20, 16, 0.85);
+}
+
+/* Classic Light Theme */
+body.theme-light {
+  --bg-primary: #fcfaf2;
+  --bg-secondary: #f4efdf;
+  --bg-tertiary: #eae3cc;
+  --text-primary: #1c251f;
+  --text-secondary: #4a5c50;
+  --text-muted: #7d8a80;
+  --accent-gold: #a67c3b;
+  --accent-gold-hover: #c49c5e;
+  --accent-rose: #d63351;
+  --glass-bg: rgba(244, 239, 223, 0.85);
+  --glass-bg-hover: rgba(234, 227, 204, 0.9);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --glass-border-gold: rgba(166, 124, 59, 0.2);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.12);
+}
+body.theme-light header {
+  background: rgba(252, 250, 242, 0.9);
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+body.theme-light input, 
+body.theme-light select, 
+body.theme-light textarea {
+  background: #ffffff;
+  color: #1c251f;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+body.theme-light input:focus, 
+body.theme-light select:focus, 
+body.theme-light textarea:focus {
+  border-color: var(--accent-gold);
+}
+body.theme-light .filter-btn {
+  background: #ffffff;
+}
+body.theme-light .product-card-info {
+  background: #ffffff;
+}
+body.theme-light .cart-summary {
+  background: #f4efdf;
+}
+body.theme-light .payment-method-card {
+  background: #ffffff;
+}
+body.theme-light .payment-method-card.active {
+  background: rgba(166, 124, 59, 0.08);
+}
+body.theme-light .admin-sidebar-menu {
+  background: #ffffff;
+}
+body.theme-light .admin-product-row {
+  background: #ffffff;
+}
+body.theme-light .admin-order-card {
+  background: #ffffff;
+}
+body.theme-light .payment-details-panel {
+  background: rgba(255, 255, 255, 0.5);
+}
+body.theme-light .barcode-svg, 
+body.theme-light .pix-qr-box {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+body.theme-light .pix-code-input {
+  background: #ffffff !important;
+  color: #1c251f;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+}
+body.theme-light .modal-close-btn {
+  background: rgba(0, 0, 0, 0.05);
+}
+body.theme-light .modal-close-btn:hover {
+  background: var(--accent-rose);
+}
+body.theme-light .product-detail-image-wrapper {
+  background: #eae3cc;
+}
+body.theme-light .product-card-visual {
+  background: #eae3cc;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+

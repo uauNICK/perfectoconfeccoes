@@ -66,7 +66,12 @@ const INITIAL_SETTINGS = {
   address: "Rua Têxtil, 450, Distrito Industrial - Americana/SP",
   email: "contato@perfectoconfeccoes.com.br",
   instagram: "https://instagram.com/perfecto.confeccoes",
-  phone: "+55 (19) 3456-7890"
+  phone: "+55 (19) 3456-7890",
+  adminUser: "admin",
+  adminPass: "perfecto",
+  theme: "midnight",
+  logoUrl: "",
+  faviconUrl: ""
 };
 
 // Application State
@@ -131,6 +136,34 @@ function updateBrandingDOM() {
   
   const whatsappBtn = document.getElementById("social-whatsapp");
   if (whatsappBtn) whatsappBtn.href = `https://wa.me/${settings.whatsapp}`;
+
+  // Apply Theme class
+  document.body.classList.remove("theme-emerald", "theme-light");
+  if (settings.theme === "emerald") {
+    document.body.classList.add("theme-emerald");
+  } else if (settings.theme === "light") {
+    document.body.classList.add("theme-light");
+  }
+
+  // Apply Logo Images/Text fallback
+  const headerLogo = document.getElementById("logo-branding");
+  const footerLogo = document.getElementById("footer-branding-logo");
+  
+  const logoContent = settings.logoUrl ? 
+    `<img src="${settings.logoUrl}" alt="Perfecto Logo" style="height: 35px; max-width: 150px; object-fit: contain; display: inline-block; vertical-align: middle;">` :
+    `<i class="fa-solid fa-shirt"></i> Perfecto <span>Confecções</span>`;
+    
+  if (headerLogo) headerLogo.innerHTML = logoContent;
+  if (footerLogo) footerLogo.innerHTML = logoContent;
+
+  // Apply Favicon (tab icon)
+  let favLink = document.querySelector("link[rel~='icon']");
+  if (!favLink) {
+    favLink = document.createElement("link");
+    favLink.rel = "icon";
+    document.getElementsByTagName("head")[0].appendChild(favLink);
+  }
+  favLink.href = settings.faviconUrl || "assets/images/camiseta_basica.png";
 }
 
 function saveState(key, data) {
@@ -818,24 +851,36 @@ function updateAdminOrdersBadge() {
 // Admin Panel Dashboard Logics
 function initAdminUI() {
   const adminSection = document.getElementById("admin-section");
+  const adminLoginSection = document.getElementById("admin-login-section");
   const mainContent = document.getElementById("main-content");
   const checkoutSection = document.getElementById("checkout-section");
 
-  // Show Admin Panel
-  const triggerBtn = document.getElementById("admin-panel-trigger");
-  if (triggerBtn) {
-    triggerBtn.addEventListener("click", () => {
-      mainContent.style.display = "none";
-      checkoutSection.style.display = "none";
+  const isLoggedIn = () => sessionStorage.getItem("perfecto_admin_logged") === "true";
+
+  const openAdminView = () => {
+    mainContent.style.display = "none";
+    checkoutSection.style.display = "none";
+    
+    if (isLoggedIn()) {
       adminSection.style.display = "block";
-      window.scrollTo(0, 0);
-      
-      // Load tables
+      adminLoginSection.style.display = "none";
       renderAdminProducts();
       renderAdminOrders();
       loadAdminSettings();
       updateAdminOrdersBadge();
-    });
+    } else {
+      adminSection.style.display = "none";
+      adminLoginSection.style.display = "block";
+      document.getElementById("login-error-msg").style.display = "none";
+      document.getElementById("admin-login-form").reset();
+    }
+    window.scrollTo(0, 0);
+  };
+
+  // Show Admin Panel
+  const triggerBtn = document.getElementById("admin-panel-trigger");
+  if (triggerBtn) {
+    triggerBtn.addEventListener("click", openAdminView);
   }
 
   // Footer admin trigger
@@ -843,20 +888,48 @@ function initAdminUI() {
   if (footerTrigger) {
     footerTrigger.addEventListener("click", (e) => {
       e.preventDefault();
-      mainContent.style.display = "none";
-      checkoutSection.style.display = "none";
-      adminSection.style.display = "block";
-      window.scrollTo(0, 0);
-      
-      // Load tables
-      renderAdminProducts();
-      renderAdminOrders();
-      loadAdminSettings();
-      updateAdminOrdersBadge();
+      openAdminView();
     });
   }
 
-  // Exit Admin
+  // Back to catalog from login
+  document.getElementById("back-to-catalog-from-login").addEventListener("click", (e) => {
+    e.preventDefault();
+    adminLoginSection.style.display = "none";
+    mainContent.style.display = "block";
+  });
+
+  // Toggle login password visibility
+  const passInput = document.getElementById("login-password");
+  const togglePassBtn = document.getElementById("toggle-login-password");
+  togglePassBtn.addEventListener("click", () => {
+    const isPass = passInput.type === "password";
+    passInput.type = isPass ? "text" : "password";
+    togglePassBtn.innerHTML = isPass ? '<i class="fa-regular fa-eye-slash"></i>' : '<i class="fa-regular fa-eye"></i>';
+  });
+
+  // Handle Admin Login submission
+  document.getElementById("admin-login-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const user = document.getElementById("login-username").value;
+    const pass = document.getElementById("login-password").value;
+
+    if (user === settings.adminUser && pass === settings.adminPass) {
+      sessionStorage.setItem("perfecto_admin_logged", "true");
+      openAdminView();
+    } else {
+      const errorMsg = document.getElementById("login-error-msg");
+      errorMsg.style.display = "block";
+      // Shake animation
+      const card = e.target.closest(".checkout-card");
+      card.style.animation = "none";
+      setTimeout(() => {
+        card.style.animation = "shake 0.5s ease";
+      }, 10);
+    }
+  });
+
+  // Exit Admin (Go to Site)
   document.getElementById("exit-admin-btn").addEventListener("click", () => {
     adminSection.style.display = "none";
     mainContent.style.display = "block";
@@ -865,6 +938,17 @@ function initAdminUI() {
     // Refresh products catalog in case changes were made
     renderCatalog();
     renderCategoryFilters();
+  });
+
+  // Logout Admin
+  document.getElementById("logout-admin-btn").addEventListener("click", () => {
+    if (confirm("Deseja realmente sair da sua conta administrativa?")) {
+      sessionStorage.removeItem("perfecto_admin_logged");
+      adminSection.style.display = "none";
+      adminLoginSection.style.display = "none";
+      mainContent.style.display = "block";
+      window.scrollTo(0, 0);
+    }
   });
 
   // Admin tabs sidebar switches
@@ -891,10 +975,17 @@ function initAdminUI() {
     settings.instagram = document.getElementById("settings-instagram").value;
     settings.email = document.getElementById("settings-email").value;
     
+    // Save appearance preferences & credentials
+    settings.theme = document.getElementById("settings-theme").value;
+    settings.logoUrl = document.getElementById("settings-logo-url").value;
+    settings.faviconUrl = document.getElementById("settings-favicon-url").value;
+    settings.adminUser = document.getElementById("settings-admin-user").value;
+    settings.adminPass = document.getElementById("settings-admin-pass").value;
+
     saveState("perfecto_settings", settings);
     updateBrandingDOM();
     updateCartUI();
-    alert("Configurações da loja salvas com sucesso!");
+    alert("Configurações da loja e preferências salvas com sucesso!");
   });
 
   // Clear orders
@@ -941,6 +1032,13 @@ function loadAdminSettings() {
   document.getElementById("settings-address").value = settings.address;
   document.getElementById("settings-instagram").value = settings.instagram || "";
   document.getElementById("settings-email").value = settings.email;
+
+  // Populate Customizations and Credentials
+  document.getElementById("settings-theme").value = settings.theme || "midnight";
+  document.getElementById("settings-logo-url").value = settings.logoUrl || "";
+  document.getElementById("settings-favicon-url").value = settings.faviconUrl || "";
+  document.getElementById("settings-admin-user").value = settings.adminUser || "admin";
+  document.getElementById("settings-admin-pass").value = settings.adminPass || "perfecto";
 }
 
 function renderAdminProducts() {

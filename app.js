@@ -71,7 +71,9 @@ const INITIAL_SETTINGS = {
   adminPass: "perfecto",
   theme: "midnight",
   logoUrl: "assets/images/logo.png",
-  faviconUrl: "assets/images/logo.png"
+  faviconUrl: "assets/images/logo.png",
+  logoHeightHeader: 60,
+  logoHeightFooter: 100
 };
 
 // Application State
@@ -104,6 +106,12 @@ function initState() {
     }
     if (!settings.faviconUrl || settings.faviconUrl === "") {
       settings.faviconUrl = "assets/images/logo.png";
+    }
+    if (!settings.logoHeightHeader) {
+      settings.logoHeightHeader = 60;
+    }
+    if (!settings.logoHeightFooter) {
+      settings.logoHeightFooter = 100;
     }
     localStorage.setItem("perfecto_settings", JSON.stringify(settings));
   } else {
@@ -166,6 +174,10 @@ function updateBrandingDOM() {
       `<img src="${settings.logoUrl}" alt="Perfecto Logo" class="footer-logo-img">` :
       `<i class="fa-solid fa-shirt"></i> Perfecto <span>Confecções</span>`;
   }
+
+  // Set logo sizes in CSS variables
+  document.documentElement.style.setProperty("--logo-height-header", `${settings.logoHeightHeader || 60}px`);
+  document.documentElement.style.setProperty("--logo-height-footer", `${settings.logoHeightFooter || 100}px`);
 
   // Apply Favicon (tab icon)
   let favLink = document.querySelector("link[rel~='icon']");
@@ -1033,6 +1045,8 @@ function initAdminUI() {
     settings.theme = document.getElementById("settings-theme").value;
     settings.logoUrl = document.getElementById("settings-logo-url").value;
     settings.faviconUrl = document.getElementById("settings-favicon-url").value;
+    settings.logoHeightHeader = parseInt(document.getElementById("settings-logo-height-header").value) || 60;
+    settings.logoHeightFooter = parseInt(document.getElementById("settings-logo-height-footer").value) || 100;
     settings.adminUser = document.getElementById("settings-admin-user").value;
     settings.adminPass = document.getElementById("settings-admin-pass").value;
 
@@ -1091,6 +1105,8 @@ function loadAdminSettings() {
   document.getElementById("settings-theme").value = settings.theme || "midnight";
   document.getElementById("settings-logo-url").value = settings.logoUrl || "";
   document.getElementById("settings-favicon-url").value = settings.faviconUrl || "";
+  document.getElementById("settings-logo-height-header").value = settings.logoHeightHeader || 60;
+  document.getElementById("settings-logo-height-footer").value = settings.logoHeightFooter || 100;
   document.getElementById("settings-admin-user").value = settings.adminUser || "admin";
   document.getElementById("settings-admin-pass").value = settings.adminPass || "perfecto";
 }

@@ -2099,8 +2099,8 @@ body.theme-light .product-card-visual {
 
 /* Custom logo sizing with smooth scroll transitions */
 .logo-img {
-  height: 95px;
-  max-height: 95px;
+  height: var(--logo-height-header, 60px);
+  max-height: var(--logo-height-header, 60px);
   width: auto;
   object-fit: contain;
   display: inline-block;
@@ -2109,13 +2109,13 @@ body.theme-light .product-card-visual {
 }
 
 header.scrolled .logo-img {
-  height: 65px;
-  max-height: 65px;
+  height: calc(var(--logo-height-header, 60px) * 0.7);
+  max-height: calc(var(--logo-height-header, 60px) * 0.7);
 }
 
 .footer-logo-img {
-  height: 140px;
-  max-height: 140px;
+  height: var(--logo-height-footer, 100px);
+  max-height: var(--logo-height-footer, 100px);
   width: auto;
   object-fit: contain;
   display: inline-block;

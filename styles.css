@@ -2097,3 +2097,28 @@ body.theme-light .product-card-visual {
   40%, 80% { transform: translateX(6px); }
 }
 
+/* Custom logo sizing with smooth scroll transitions */
+.logo-img {
+  height: 95px;
+  max-height: 95px;
+  width: auto;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
+  transition: var(--transition-smooth);
+}
+
+header.scrolled .logo-img {
+  height: 65px;
+  max-height: 65px;
+}
+
+.footer-logo-img {
+  height: 140px;
+  max-height: 140px;
+  width: auto;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
+}
+

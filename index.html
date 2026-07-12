@@ -701,21 +701,20 @@
             </select>
           </div>
           <div class="form-field">
-            <label for="edit-product-image">Imagem do Produto</label>
-            <select id="edit-product-image" required>
-              <option value="assets/images/camisa_polo.png">Polo Standard</option>
-              <option value="assets/images/moletom.png">Moletom Canguru</option>
-              <option value="assets/images/calca_jeans.png">Calça Jeans Premium</option>
-              <option value="assets/images/camiseta_basica.png">Camiseta Básica</option>
-              <option value="custom">-- Enviar Imagem Personalizada --</option>
-            </select>
+            <label for="edit-product-image-file">Importar Foto do Produto (Arquivo)</label>
+            <input type="file" id="edit-product-image-file" accept="image/*">
+            <input type="hidden" id="edit-product-image-base64">
           </div>
         </div>
         
-        <div class="form-field" id="edit-product-file-container" style="display: none; margin-top: 10px;">
-          <label for="edit-product-image-file">Selecionar Imagem do Computador</label>
-          <input type="file" id="edit-product-image-file" accept="image/*">
-          <input type="hidden" id="edit-product-image-base64">
+        <div class="checkout-form-group" style="margin-top: 10px;">
+          <div class="form-field" style="flex: 2;">
+            <label for="edit-product-image-url">Ou colar URL da Imagem (Padrão)</label>
+            <input type="text" id="edit-product-image-url" placeholder="Ex: assets/images/camisa_polo.png">
+          </div>
+          <div class="form-field" style="flex: 1; align-items: center; justify-content: center; display: flex; padding-top: 20px;">
+            <img id="edit-product-image-preview" src="" style="width: 55px; height: 55px; border-radius: 6px; object-fit: cover; display: none; border: 1px solid var(--glass-border);">
+          </div>
         </div>
 
         <div class="form-field">

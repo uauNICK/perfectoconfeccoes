@@ -1042,26 +1042,35 @@ function initAdminUI() {
     reader.readAsDataURL(file);
   });
   
-  // Custom Product Image selector toggle & file reader
-  const productImageSelect = document.getElementById("edit-product-image");
-  const productFileContainer = document.getElementById("edit-product-file-container");
-  
-  productImageSelect.addEventListener("change", (e) => {
-    if (e.target.value === "custom") {
-      productFileContainer.style.display = "block";
-    } else {
-      productFileContainer.style.display = "none";
-    }
-  });
-  
+  // Custom Product Image direct file reader & URL inputs
+  const productBase64 = document.getElementById("edit-product-image-base64");
+  const productUrlInput = document.getElementById("edit-product-image-url");
+  const productPreview = document.getElementById("edit-product-image-preview");
+
   document.getElementById("edit-product-image-file").addEventListener("change", (e) => {
     const file = e.target.files[0];
     if (!file) return;
     const reader = new FileReader();
     reader.onload = (event) => {
-      document.getElementById("edit-product-image-base64").value = event.target.result;
+      productBase64.value = event.target.result;
+      productUrlInput.value = ""; // Clear URL if uploading a file
+      productPreview.src = event.target.result;
+      productPreview.style.display = "block";
     };
     reader.readAsDataURL(file);
+  });
+
+  productUrlInput.addEventListener("input", (e) => {
+    const val = e.target.value;
+    if (val) {
+      productBase64.value = ""; // Clear file base64 if typing a URL
+      document.getElementById("edit-product-image-file").value = "";
+      productPreview.src = val;
+      productPreview.style.display = "block";
+    } else {
+      productPreview.style.display = "none";
+      productPreview.src = "";
+    }
   });
 
   // Settings form submit
@@ -1114,6 +1123,10 @@ function initAdminUI() {
   document.getElementById("btn-add-product-modal").addEventListener("click", () => {
     document.getElementById("admin-product-form").reset();
     document.getElementById("edit-product-id").value = "";
+    document.getElementById("edit-product-image-base64").value = "";
+    document.getElementById("edit-product-image-url").value = "";
+    document.getElementById("edit-product-image-preview").src = "";
+    document.getElementById("edit-product-image-preview").style.display = "none";
     document.getElementById("admin-modal-title").innerText = "Adicionar Novo Produto";
     
     modalOverlay.classList.add("active");
@@ -1212,18 +1225,23 @@ function openEditProductModal(productId) {
   document.getElementById("edit-product-desc").value = p.description;
 
   const isCustomImg = p.image.startsWith("data:image/");
-  const imgSelect = document.getElementById("edit-product-image");
-  const fileContainer = document.getElementById("edit-product-file-container");
   const base64Input = document.getElementById("edit-product-image-base64");
+  const urlInput = document.getElementById("edit-product-image-url");
+  const previewImg = document.getElementById("edit-product-image-preview");
   
   if (isCustomImg) {
-    imgSelect.value = "custom";
-    fileContainer.style.display = "block";
     base64Input.value = p.image;
+    urlInput.value = "";
   } else {
-    imgSelect.value = p.image;
-    fileContainer.style.display = "none";
     base64Input.value = "";
+    urlInput.value = p.image;
+  }
+  
+  if (p.image) {
+    previewImg.src = p.image;
+    previewImg.style.display = "block";
+  } else {
+    previewImg.style.display = "none";
   }
 
   // Sizes checkbox
@@ -1256,14 +1274,17 @@ function handleProductFormSubmit(e) {
   const priceWholesale = parseFloat(document.getElementById("edit-product-price-wholesale").value);
   const category = document.getElementById("edit-product-category").value;
   
-  const imageSelectVal = document.getElementById("edit-product-image").value;
-  let image = imageSelectVal;
-  if (imageSelectVal === "custom") {
-    image = document.getElementById("edit-product-image-base64").value;
-    if (!image) {
-      alert("Por favor, selecione um arquivo de imagem do computador para o produto.");
-      return;
-    }
+  let image = "";
+  const base64Val = document.getElementById("edit-product-image-base64").value;
+  const urlVal = document.getElementById("edit-product-image-url").value;
+  
+  if (base64Val) {
+    image = base64Val;
+  } else if (urlVal) {
+    image = urlVal;
+  } else {
+    alert("Por favor, selecione um arquivo de foto do produto ou insira uma URL.");
+    return;
   }
 
   const description = document.getElementById("edit-product-desc").value;

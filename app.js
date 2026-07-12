@@ -156,12 +156,16 @@ function updateBrandingDOM() {
   const headerLogo = document.getElementById("logo-branding");
   const footerLogo = document.getElementById("footer-branding-logo");
   
-  const logoContent = settings.logoUrl ? 
-    `<img src="${settings.logoUrl}" alt="Perfecto Logo" style="height: 35px; max-width: 150px; object-fit: contain; display: inline-block; vertical-align: middle;">` :
-    `<i class="fa-solid fa-shirt"></i> Perfecto <span>Confecções</span>`;
-    
-  if (headerLogo) headerLogo.innerHTML = logoContent;
-  if (footerLogo) footerLogo.innerHTML = logoContent;
+  if (headerLogo) {
+    headerLogo.innerHTML = settings.logoUrl ? 
+      `<img src="${settings.logoUrl}" alt="Perfecto Logo" style="height: 60px; max-height: 60px; max-width: 220px; object-fit: contain; display: inline-block; vertical-align: middle;">` :
+      `<i class="fa-solid fa-shirt"></i> Perfecto <span>Confecções</span>`;
+  }
+  if (footerLogo) {
+    footerLogo.innerHTML = settings.logoUrl ? 
+      `<img src="${settings.logoUrl}" alt="Perfecto Logo" style="height: 100px; max-height: 100px; max-width: 280px; object-fit: contain; display: inline-block; vertical-align: middle;">` :
+      `<i class="fa-solid fa-shirt"></i> Perfecto <span>Confecções</span>`;
+  }
 
   // Apply Favicon (tab icon)
   let favLink = document.querySelector("link[rel~='icon']");

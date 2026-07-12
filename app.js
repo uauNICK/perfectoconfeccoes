@@ -89,7 +89,11 @@ const INITIAL_SETTINGS = {
   storeTitle: "Perfecto Confecções",
   storeDescription: "Venda Online de Vestuário no Varejo e Atacado Direto de Fábrica.",
   footerAboutText: "Fabricação de vestuário de alta durabilidade e estilo desde 2012. Vestindo o Brasil com excelência.",
-  copyrightText: "© 2026 Perfecto Confecções. Todos os direitos reservados. CNPJ: 12.345.678/0001-99"
+  copyrightText: "© 2026 Perfecto Confecções. Todos os direitos reservados. CNPJ: 12.345.678/0001-99",
+  headerHeight: 80,
+  headerHeightScrolled: 60,
+  headerOpacity: 85,
+  headerOpacityScrolled: 95
 };
 
 // Application State
@@ -148,6 +152,18 @@ function initState() {
     if (!settings.copyrightText) {
       settings.copyrightText = INITIAL_SETTINGS.copyrightText;
     }
+    if (!settings.headerHeight) {
+      settings.headerHeight = 80;
+    }
+    if (!settings.headerHeightScrolled) {
+      settings.headerHeightScrolled = 60;
+    }
+    if (settings.headerOpacity === undefined) {
+      settings.headerOpacity = 85;
+    }
+    if (settings.headerOpacityScrolled === undefined) {
+      settings.headerOpacityScrolled = 95;
+    }
     localStorage.setItem("perfecto_settings", JSON.stringify(settings));
   } else {
     settings = { ...INITIAL_SETTINGS };
@@ -173,6 +189,12 @@ function initState() {
 }
 
 function updateBrandingDOM() {
+  // Apply navigation bar height and opacity settings
+  document.documentElement.style.setProperty("--header-height", `${settings.headerHeight || 80}px`);
+  document.documentElement.style.setProperty("--header-height-scrolled", `${settings.headerHeightScrolled || 60}px`);
+  document.documentElement.style.setProperty("--header-opacity", (settings.headerOpacity !== undefined ? settings.headerOpacity : 85) / 100);
+  document.documentElement.style.setProperty("--header-opacity-scrolled", (settings.headerOpacityScrolled !== undefined ? settings.headerOpacityScrolled : 95) / 100);
+
   document.getElementById("wholesale-trigger-num").innerText = settings.wholesaleMin;
   document.getElementById("wholesale-discount-num").innerText = `${settings.wholesaleDiscount}%`;
   
@@ -1170,6 +1192,13 @@ function initAdminUI() {
     settings.logoHeightHeader = parseInt(document.getElementById("settings-logo-height-header").value) || 60;
     settings.logoHeightFooter = parseInt(document.getElementById("settings-logo-height-footer").value) || 100;
     
+    settings.headerHeight = parseInt(document.getElementById("settings-header-height").value) || 80;
+    settings.headerHeightScrolled = parseInt(document.getElementById("settings-header-height-scrolled").value) || 60;
+    settings.headerOpacity = parseInt(document.getElementById("settings-header-opacity").value);
+    if (isNaN(settings.headerOpacity)) settings.headerOpacity = 85;
+    settings.headerOpacityScrolled = parseInt(document.getElementById("settings-header-opacity-scrolled").value);
+    if (isNaN(settings.headerOpacityScrolled)) settings.headerOpacityScrolled = 95;
+    
     // Save text properties
     settings.storeTitle = document.getElementById("settings-store-title").value;
     settings.storeDescription = document.getElementById("settings-store-meta-desc").value;
@@ -1240,6 +1269,11 @@ function loadAdminSettings() {
   document.getElementById("settings-favicon-url").value = settings.faviconUrl || "";
   document.getElementById("settings-logo-height-header").value = settings.logoHeightHeader || 60;
   document.getElementById("settings-logo-height-footer").value = settings.logoHeightFooter || 100;
+  
+  document.getElementById("settings-header-height").value = settings.headerHeight || 80;
+  document.getElementById("settings-header-height-scrolled").value = settings.headerHeightScrolled || 60;
+  document.getElementById("settings-header-opacity").value = settings.headerOpacity !== undefined ? settings.headerOpacity : 85;
+  document.getElementById("settings-header-opacity-scrolled").value = settings.headerOpacityScrolled !== undefined ? settings.headerOpacityScrolled : 95;
   
   // Populate site texts
   document.getElementById("settings-store-title").value = settings.storeTitle || "";
@@ -1588,13 +1622,26 @@ function initLayoutUI() {
   const modalOverlay = document.getElementById("product-modal-overlay");
   const productModal = document.getElementById("product-modal-container");
 
-  // Header Scroll Effect
+  // Header Scroll Effect & Hide on Scroll Down
+  let lastScrollY = window.scrollY;
   window.addEventListener("scroll", () => {
-    if (window.scrollY > 50) {
+    const currentScrollY = window.scrollY;
+    
+    // Add/remove scrolled shrink styling
+    if (currentScrollY > 50) {
       header.classList.add("scrolled");
     } else {
       header.classList.remove("scrolled");
     }
+    
+    // Auto hide on scroll down (if passed header area), show on scroll up
+    if (currentScrollY > lastScrollY && currentScrollY > 150) {
+      header.classList.add("header-hidden");
+    } else {
+      header.classList.remove("header-hidden");
+    }
+    
+    lastScrollY = currentScrollY;
   });
 
   // Cart Drawer open/close

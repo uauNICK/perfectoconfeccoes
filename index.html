@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfecto Confecções | Moda & Fabricação Própria Premium</title>
+  <meta name="description" content="Catálogo online da Perfecto Confecções. Fabricação própria de roupas de alta qualidade em atacado e varejo. Compre direto de fábrica.">
+  <link rel="stylesheet" href="styles.css">
+  <!-- Font Awesome for elegant icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Header -->
+  <header id="header">
+    <div class="container nav-container">
+      <a href="#" class="logo" id="logo-branding">
+        <i class="fa-solid fa-shirt"></i> Perfecto <span>Confecções</span>
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="#" class="active" data-nav="home">Início</a></li>
+        <li><a href="#" data-nav="catalog">Catálogo</a></li>
+        <li><a href="#" data-nav="about">Sobre Nós</a></li>
+        <li><a href="#" data-nav="contact">Contato</a></li>
+      </ul>
+      
+      <div class="nav-actions">
+        <div class="search-bar-container">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="text" id="search-input" placeholder="Buscar produtos...">
+        </div>
+        
+        <button class="cart-toggle-btn" id="cart-toggle" aria-label="Carrinho de Compras">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="cart-badge" id="cart-count">0</span>
+        </button>
+        
+        <button class="admin-toggle-btn" id="admin-panel-trigger" title="Painel de Controle">
+          <i class="fa-solid fa-sliders"></i>
+        </button>
+        
+        <button class="menu-mobile-btn" id="mobile-menu-toggle" aria-label="Menu Celular">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main id="main-content">
+    
+    <!-- Hero Section -->
+    <section class="hero" id="hero-section">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <span class="section-tag" id="store-tagline">Coleção Exclusiva</span>
+          <h1 id="hero-title">Qualidade e Estilo Direto da Fábrica</h1>
+          <p id="hero-description">Sua confecção de confiança para roupas premium no atacado e varejo. Peças fabricadas com tecidos selecionados e excelente acabamento.</p>
+          <div class="hero-ctas">
+            <a href="#catalog-section" class="btn-primary">Ver Catálogo</a>
+            <a href="#contact-section" class="btn-secondary">Fale Conosco</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-image-wrapper">
+            <img src="assets/images/hero_apparel.png" alt="Produção de Roupas Perfecto Confecções" class="hero-image" id="hero-image-display">
+            <div class="hero-badge glass-panel">
+              <div class="hero-badge-icon flex-center">
+                <i class="fa-solid fa-award"></i>
+              </div>
+              <div class="hero-badge-text">
+                <h4>Algodão 100%</h4>
+                <p>Matéria-prima de alta qualidade</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Nossos Diferenciais</span>
+          <h2 class="section-title">Por que comprar com a Perfecto?</h2>
+          <p class="section-desc">Garantimos a melhor experiência de compra e fornecimento para seu guarda-roupa ou sua loja de varejo.</p>
+        </div>
+        
+        <div class="features-grid">
+          <div class="feature-card glass-panel">
+            <div class="feature-icon flex-center">
+              <i class="fa-solid fa-scissors"></i>
+            </div>
+            <h3>Fabricação Própria</h3>
+            <p>Modelagens pensadas no caimento perfeito e costura reforçada de alta durabilidade.</p>
+          </div>
+          
+          <div class="feature-card glass-panel">
+            <div class="feature-icon flex-center">
+              <i class="fa-solid fa-truck-fast"></i>
+            </div>
+            <h3>Envio para todo o País</h3>
+            <p>Parcerias com as melhores transportadoras e Correios para entregas rápidas e seguras.</p>
+          </div>
+          
+          <div class="feature-card glass-panel">
+            <div class="feature-icon flex-center">
+              <i class="fa-solid fa-tags"></i>
+            </div>
+            <h3>Atacado e Varejo</h3>
+            <p>Condições imbatíveis no atacado a partir de 10 peças, ideais para lojistas e revendedores.</p>
+          </div>
+          
+          <div class="feature-card glass-panel">
+            <div class="feature-icon flex-center">
+              <i class="fa-solid fa-headset"></i>
+            </div>
+            <h3>Suporte Dedicado</h3>
+            <p>Atendimento rápido via WhatsApp para acompanhar seu pedido e tirar qualquer dúvida.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Catalog Section -->
+    <section class="catalog-section" id="catalog-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Explore Nosso Estoque</span>
+          <h2 class="section-title">Nossas Confecções</h2>
+          <p class="section-desc">Navegue pelas nossas categorias e confira os preços promocionais para compras acima de 10 peças.</p>
+        </div>
+
+        <!-- Wholesale info dynamic banner -->
+        <div class="pricing-mode-banner glass-panel-gold">
+          <div class="pricing-mode-desc">
+            <i class="fa-solid fa-circle-info"></i>
+            <div>
+              <span>Condição Especial de Atacado</span>
+              <small>Adicione <strong id="wholesale-trigger-num">10</strong> ou mais peças no carrinho e ganhe automaticamente <strong id="wholesale-discount-num">20%</strong> de desconto em todo o pedido!</small>
+            </div>
+          </div>
+          <div class="pricing-mode-toggle">
+            <button class="pricing-mode-btn active" id="btn-view-retail">Varejo</button>
+            <button class="pricing-mode-btn" id="btn-view-wholesale">Atacado</button>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="catalog-filters">
+          <div class="filter-categories" id="categories-filter-container">
+            <button class="filter-btn active" data-category="all">Todos</button>
+            <!-- Dynamically populated categories -->
+          </div>
+          
+          <div class="filter-selects">
+            <select id="filter-size" aria-label="Filtrar por tamanho">
+              <option value="all">Tamanho (Todos)</option>
+              <option value="P">P</option>
+              <option value="M">M</option>
+              <option value="G">G</option>
+              <option value="GG">GG</option>
+            </select>
+            <select id="filter-sort" aria-label="Ordenar por">
+              <option value="default">Ordenar por</option>
+              <option value="price-asc">Menor Preço</option>
+              <option value="price-desc">Maior Preço</option>
+              <option value="newest">Lançamentos</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid" id="products-grid-container">
+          <!-- Dynamically populated products -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Product Details Modal Overlay -->
+  <div class="modal-overlay" id="product-modal-overlay"></div>
+  <!-- Product Details Modal Container -->
+  <div class="modal-container glass-panel-gold" id="product-modal-container">
+    <button class="modal-close-btn flex-center" id="close-product-modal" aria-label="Fechar">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div class="product-detail-grid" id="product-modal-content">
+      <!-- Dynamic details -->
+    </div>
+  </div>
+
+  <!-- Shopping Cart Drawer -->
+  <div class="cart-drawer glass-panel" id="cart-drawer-panel">
+    <div class="cart-header">
+      <h3>Seu Carrinho</h3>
+      <button class="cart-close-btn" id="close-cart-btn" aria-label="Fechar Carrinho">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    
+    <div class="cart-items-wrapper" id="cart-items-list">
+      <!-- Dynamic cart items -->
+    </div>
+    
+    <div class="cart-summary" id="cart-summary-section">
+      <!-- Wholesale indicator discount applied -->
+      <div class="discount-badge-alert" id="wholesale-badge-applied" style="display: none;">
+        <i class="fa-solid fa-circle-check"></i>
+        <span><strong>Atacado Ativado!</strong> 20% de desconto aplicado.</span>
+      </div>
+      
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span id="cart-subtotal">R$ 0,00</span>
+      </div>
+      <div class="summary-row" id="cart-discount-row" style="display: none;">
+        <span>Desconto de Atacado</span>
+        <span id="cart-discount-value" style="color: var(--accent-rose);">-R$ 0,00</span>
+      </div>
+      <div class="summary-row total">
+        <span>Total</span>
+        <span class="total-price" id="cart-total-value">R$ 0,00</span>
+      </div>
+      
+      <button class="btn-primary btn-checkout" id="go-to-checkout-btn">Finalizar Pedido</button>
+    </div>
+  </div>
+
+  <!-- Checkout View (Overlay screen) -->
+  <section class="checkout-view" id="checkout-section">
+    <div class="container">
+      <a href="#" class="checkout-back-link" id="back-to-catalog">
+        <i class="fa-solid fa-arrow-left"></i> Voltar ao Catálogo
+      </a>
+      
+      <div class="checkout-grid">
+        <!-- Form and checkout options -->
+        <div class="checkout-card glass-panel-gold">
+          <h2 class="checkout-title">Dados de Envio e Pagamento</h2>
+          
+          <form id="checkout-form">
+            <!-- Client Info -->
+            <div class="checkout-form-group">
+              <div class="form-field">
+                <label for="client-name">Nome Completo *</label>
+                <input type="text" id="client-name" required placeholder="Seu nome">
+              </div>
+              <div class="form-field">
+                <label for="client-phone">Celular (WhatsApp) *</label>
+                <input type="tel" id="client-phone" required placeholder="(00) 00000-0000">
+              </div>
+            </div>
+            
+            <div class="checkout-form-group">
+              <div class="form-field">
+                <label for="client-email">E-mail (Opcional)</label>
+                <input type="email" id="client-email" placeholder="seu@email.com">
+              </div>
+              <div class="form-field">
+                <label for="client-type">Tipo de Pedido *</label>
+                <select id="client-type">
+                  <option value="varejo">Varejo (Uso Próprio)</option>
+                  <option value="atacado">Atacado (Revenda)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Shipping Address -->
+            <h3 class="checkout-title" style="font-size: 1.2rem; margin-top: 20px; border-bottom: none; padding-bottom: 0;">Endereço de Entrega</h3>
+            <div class="checkout-form-group">
+              <div class="form-field">
+                <label for="client-cep">CEP *</label>
+                <input type="text" id="client-cep" required placeholder="00000-000">
+              </div>
+              <div class="form-field">
+                <label for="client-address">Rua / Avenida *</label>
+                <input type="text" id="client-address" required placeholder="Nome da rua">
+              </div>
+            </div>
+            
+            <div class="checkout-form-group">
+              <div class="form-field">
+                <label for="client-number">Número *</label>
+                <input type="text" id="client-number" required placeholder="Ex: 123">
+              </div>
+              <div class="form-field">
+                <label for="client-city-state">Cidade / Estado *</label>
+                <input type="text" id="client-city-state" required placeholder="Cidade - UF">
+              </div>
+            </div>
+
+            <!-- Payment Method Tabs -->
+            <h3 class="checkout-title" style="font-size: 1.2rem; margin-top: 25px; border-bottom: none; padding-bottom: 0;">Forma de Pagamento</h3>
+            <div class="payment-methods-grid">
+              <div class="payment-method-card active" data-method="whatsapp">
+                <i class="fa-brands fa-whatsapp"></i>
+                <span>WhatsApp</span>
+              </div>
+              <div class="payment-method-card" data-method="pix">
+                <i class="fa-brands fa-pix" style="color: #32bcad;"></i>
+                <span>PIX</span>
+              </div>
+              <div class="payment-method-card" data-method="card">
+                <i class="fa-solid fa-credit-card"></i>
+                <span>Cartão</span>
+              </div>
+              <div class="payment-method-card" data-method="boleto">
+                <i class="fa-solid fa-barcode"></i>
+                <span>Boleto</span>
+              </div>
+            </div>
+
+            <!-- WhatsApp payment panel -->
+            <div class="payment-details-panel active" id="panel-whatsapp">
+              <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                O pedido será resumido e enviado diretamente para nosso atendimento no WhatsApp. Lá, confirmaremos o valor do frete e passaremos os dados bancários para o pagamento. Ideal para negociação direta e esclarecimento de dúvidas!
+              </p>
+            </div>
+
+            <!-- PIX panel -->
+            <div class="payment-details-panel" id="panel-pix">
+              <div class="pix-qr-container">
+                <p style="font-size: 0.85rem; text-align: center; color: var(--text-secondary);">
+                  Escaneie o QR Code ou copie o código Pix abaixo para realizar o pagamento. O pedido será processado imediatamente após a confirmação.
+                </p>
+                <div class="pix-qr-box flex-center">
+                  <!-- Fictional QR Code SVG/placeholder -->
+                  <i class="fa-solid fa-qrcode" style="font-size: 8rem; color: #0b0f19;"></i>
+                </div>
+                <div class="pix-code-container">
+                  <input type="text" class="pix-code-input" id="pix-code-text" readonly value="00020126580014BR.GOV.BCB.PIX0136perfectoconfeccoes-pix-ficticio-chave25204000053039865407100.005802BR5920Perfecto Confeccoes6009Sao Paulo62070503***6304E2D8">
+                  <button type="button" class="btn-primary" id="copy-pix-btn" style="padding: 10px 15px;"><i class="fa-regular fa-copy"></i> Copiar</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card panel -->
+            <div class="payment-details-panel" id="panel-card">
+              <!-- Credit Card Mockup -->
+              <div class="card-mockup-wrapper">
+                <div class="card-mockup" id="credit-card-mock">
+                  <!-- Front -->
+                  <div class="card-front">
+                    <div class="flex-center" style="justify-content: space-between;">
+                      <div class="card-chip"></div>
+                      <i class="fa-brands fa-cc-visa" style="font-size: 2rem;"></i>
+                    </div>
+                    <div class="card-mockup-number" id="mock-card-number">•••• •••• •••• ••••</div>
+                    <div class="card-mockup-footer">
+                      <div>
+                        <div style="font-size: 0.6rem; color: var(--text-muted);">TITULAR</div>
+                        <div class="card-mockup-holder" id="mock-card-holder">NOME COMPLETO</div>
+                      </div>
+                      <div>
+                        <div style="font-size: 0.6rem; color: var(--text-muted);">VALIDADE</div>
+                        <div class="card-mockup-expiry" id="mock-card-expiry">MM/AA</div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Back -->
+                  <div class="card-back">
+                    <div class="card-magnetic-strip"></div>
+                    <div class="card-signature-box">
+                      <span id="mock-card-cvv">•••</span>
+                    </div>
+                    <div style="padding: 0 24px; text-align: right; font-size: 0.6rem; color: var(--text-muted);">
+                      CVV
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Card Inputs -->
+              <div class="checkout-form-group">
+                <div class="form-field">
+                  <label for="card-number-input">Número do Cartão</label>
+                  <input type="text" id="card-number-input" placeholder="0000 0000 0000 0000" maxlength="19">
+                </div>
+                <div class="form-field">
+                  <label for="card-holder-input">Nome Impresso no Cartão</label>
+                  <input type="text" id="card-holder-input" placeholder="Ex: NOME C SOBRENOME">
+                </div>
+              </div>
+              <div class="checkout-form-group">
+                <div class="form-field">
+                  <label for="card-expiry-input">Validade (MM/AA)</label>
+                  <input type="text" id="card-expiry-input" placeholder="MM/AA" maxlength="5">
+                </div>
+                <div class="form-field">
+                  <label for="card-cvv-input">Código de Segurança (CVV)</label>
+                  <input type="text" id="card-cvv-input" placeholder="000" maxlength="4">
+                </div>
+              </div>
+            </div>
+
+            <!-- Boleto panel -->
+            <div class="payment-details-panel" id="panel-boleto">
+              <div class="boleto-panel-content">
+                <p style="font-size: 0.85rem; color: var(--text-secondary);">
+                  Gere o boleto bancário fictício para realizar o pagamento. O boleto pode ser pago em qualquer lotérica ou aplicativo de banco.
+                </p>
+                <div class="barcode-svg flex-center">
+                  <!-- Simulating barcode -->
+                  <div style="width: 100%; height: 100%; background: repeating-linear-gradient(90deg, #000, #000 2px, #fff 2px, #fff 5px);"></div>
+                </div>
+                <div class="boleto-copy-box">
+                  <input type="text" class="pix-code-input" id="boleto-barcode-text" readonly value="34191.79001 01043.513147 91020.150008 7 93450000015000">
+                  <button type="button" class="btn-primary" id="copy-boleto-btn" style="padding: 10px 15px;"><i class="fa-regular fa-copy"></i> Copiar</button>
+                </div>
+                <button type="button" class="btn-secondary" id="download-boleto-btn" style="font-size: 0.8rem; padding: 6px 12px;"><i class="fa-solid fa-file-pdf"></i> Simular PDF</button>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary btn-complete-order" id="submit-checkout-btn">Finalizar Compra</button>
+          </form>
+        </div>
+
+        <!-- Checkout Summary -->
+        <div class="checkout-summary-card glass-panel">
+          <h3 class="checkout-title" style="font-size: 1.3rem;">Resumo da Compra</h3>
+          
+          <div class="checkout-summary-items" id="checkout-summary-items-list">
+            <!-- Dynamic checkout items -->
+          </div>
+          
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="checkout-subtotal">R$ 0,00</span>
+          </div>
+          <div class="summary-row" id="checkout-discount-row" style="display: none;">
+            <span>Desconto de Atacado (<span id="checkout-discount-percent">20%</span>)</span>
+            <span id="checkout-discount-value" style="color: var(--accent-rose);">-R$ 0,00</span>
+          </div>
+          <div class="summary-row" style="margin-bottom: 20px;">
+            <span>Frete</span>
+            <span style="color: var(--success); font-weight: 500;">Grátis</span>
+          </div>
+          
+          <div class="summary-row total">
+            <span>Total Geral</span>
+            <span class="total-price" id="checkout-total-value">R$ 0,00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Admin Panel Dashboard -->
+  <section class="admin-view" id="admin-section">
+    <div class="container">
+      <div class="admin-section-header">
+        <h2 class="admin-section-title"><i class="fa-solid fa-sliders"></i> Painel de Administração</h2>
+        <button class="btn-secondary" id="exit-admin-btn"><i class="fa-solid fa-circle-chevron-left"></i> Sair do Painel</button>
+      </div>
+      
+      <div class="admin-grid">
+        <div class="admin-sidebar glass-panel">
+          <ul class="admin-sidebar-menu">
+            <li class="admin-menu-item active" data-tab="admin-products"><i class="fa-solid fa-box-open"></i> Produtos</li>
+            <li class="admin-menu-item" data-tab="admin-orders"><i class="fa-solid fa-receipt"></i> Pedidos <span class="cart-badge" id="admin-orders-badge" style="position: static; display: inline-flex; margin-left: 6px;">0</span></li>
+            <li class="admin-menu-item" data-tab="admin-settings"><i class="fa-solid fa-gears"></i> Ajustes da Loja</li>
+          </ul>
+        </div>
+        
+        <div class="admin-content-area">
+          <!-- Products Tab -->
+          <div class="admin-content-section active" id="tab-admin-products">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+              <h3>Gerenciar Catálogo</h3>
+              <button class="btn-primary" id="btn-add-product-modal" style="padding: 8px 16px; font-size: 0.85rem;"><i class="fa-solid fa-plus"></i> Novo Produto</button>
+            </div>
+            
+            <div class="admin-products-list" id="admin-products-container">
+              <!-- Dynamically populated admin products list -->
+            </div>
+          </div>
+          
+          <!-- Orders Tab -->
+          <div class="admin-content-section" id="tab-admin-orders">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+              <h3>Pedidos Efetuados</h3>
+              <button class="btn-secondary" id="btn-clear-orders" style="padding: 6px 12px; font-size: 0.8rem; color: var(--accent-rose); border-color: var(--accent-rose);"><i class="fa-solid fa-trash-can"></i> Limpar Histórico</button>
+            </div>
+            
+            <div class="admin-orders-list" id="admin-orders-container">
+              <!-- Dynamically populated admin orders list -->
+            </div>
+          </div>
+          
+          <!-- settings Tab -->
+          <div class="admin-content-section" id="tab-admin-settings">
+            <h3>Ajustes Gerais da Perfecto</h3>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 25px;">Modifique os dados da empresa. Alterações são refletidas no rodapé, WhatsApp e nas regras do carrinho instantaneamente.</p>
+            
+            <form class="admin-form" id="admin-settings-form">
+              <div class="form-field">
+                <label for="settings-whatsapp">WhatsApp Oficial (Ex: 5511999998888)</label>
+                <input type="text" id="settings-whatsapp" required>
+              </div>
+              
+              <div class="checkout-form-group">
+                <div class="form-field">
+                  <label for="settings-wholesale-min">Min. Itens para Atacado</label>
+                  <input type="number" id="settings-wholesale-min" required min="1">
+                </div>
+                <div class="form-field">
+                  <label for="settings-wholesale-discount">Desconto Atacado (%)</label>
+                  <input type="number" id="settings-wholesale-discount" required min="0" max="100">
+                </div>
+              </div>
+              
+              <div class="form-field">
+                <label for="settings-pix-key">Chave PIX da Loja</label>
+                <input type="text" id="settings-pix-key" required>
+              </div>
+
+              <div class="form-field">
+                <label for="settings-address">Endereço da Confecção</label>
+                <input type="text" id="settings-address" required>
+              </div>
+              
+              <div class="checkout-form-group">
+                <div class="form-field">
+                  <label for="settings-instagram">Instagram Link (Opcional)</label>
+                  <input type="text" id="settings-instagram">
+                </div>
+                <div class="form-field">
+                  <label for="settings-email">E-mail Comercial</label>
+                  <input type="email" id="settings-email" required>
+                </div>
+              </div>
+              
+              <button type="submit" class="btn-primary" style="align-self: flex-start; padding: 10px 24px;">Salvar Alterações</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Create/Edit Modal Container (Admin level) -->
+  <div class="modal-overlay" id="admin-modal-overlay"></div>
+  <div class="modal-container glass-panel-gold" id="admin-product-edit-modal" style="max-width: 500px;">
+    <button class="modal-close-btn flex-center" id="close-admin-product-modal">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div style="padding: 30px;">
+      <h3 id="admin-modal-title" style="margin-bottom: 20px; font-size: 1.3rem;">Adicionar Novo Produto</h3>
+      
+      <form id="admin-product-form" style="display: flex; flex-direction: column; gap: 15px;">
+        <input type="hidden" id="edit-product-id">
+        
+        <div class="form-field">
+          <label for="edit-product-name">Nome do Produto</label>
+          <input type="text" id="edit-product-name" required placeholder="Ex: Camisa Polo Fio 30.1">
+        </div>
+        
+        <div class="checkout-form-group">
+          <div class="form-field">
+            <label for="edit-product-price-retail">Preço Varejo (R$)</label>
+            <input type="number" id="edit-product-price-retail" required step="0.01" min="0" placeholder="0.00">
+          </div>
+          <div class="form-field">
+            <label for="edit-product-price-wholesale">Preço Atacado (R$)</label>
+            <input type="number" id="edit-product-price-wholesale" required step="0.01" min="0" placeholder="0.00">
+          </div>
+        </div>
+        
+        <div class="checkout-form-group">
+          <div class="form-field">
+            <label for="edit-product-category">Categoria</label>
+            <select id="edit-product-category" required>
+              <option value="Camisetas">Camisetas</option>
+              <option value="Moletons">Moletons</option>
+              <option value="Calças">Calças</option>
+              <option value="Polos">Polos</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="edit-product-image">Imagem do Produto (URL)</label>
+            <select id="edit-product-image" required>
+              <option value="assets/images/camisa_polo.png">Polo Standard (assets/images/camisa_polo.png)</option>
+              <option value="assets/images/moletom.png">Moletom Canguru (assets/images/moletom.png)</option>
+              <option value="assets/images/calca_jeans.png">Calça Jeans Premium (assets/images/calca_jeans.png)</option>
+              <option value="assets/images/camiseta_basica.png">Camiseta Básica (assets/images/camiseta_basica.png)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label>Tamanhos Disponíveis</label>
+          <div class="product-options-flex" style="margin-top: 5px;">
+            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--text-secondary); cursor: pointer;">
+              <input type="checkbox" name="edit-sizes" value="P" checked style="width: auto; padding: 0;"> P
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--text-secondary); cursor: pointer;">
+              <input type="checkbox" name="edit-sizes" value="M" checked style="width: auto; padding: 0;"> M
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--text-secondary); cursor: pointer;">
+              <input type="checkbox" name="edit-sizes" value="G" checked style="width: auto; padding: 0;"> G
+            </label>
+            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--text-secondary); cursor: pointer;">
+              <input type="checkbox" name="edit-sizes" value="GG" checked style="width: auto; padding: 0;"> GG
+            </label>
+          </div>
+        </div>
+        
+        <div class="form-field">
+          <label for="edit-product-desc">Descrição do Produto</label>
+          <textarea id="edit-product-desc" rows="3" required placeholder="Escreva os detalhes do tecido, composição e caimento..."></textarea>
+        </div>
+        
+        <div class="form-actions-admin">
+          <button type="button" class="btn-secondary" id="cancel-product-edit" style="flex: 1;">Cancelar</button>
+          <button type="submit" class="btn-primary" style="flex: 1;">Salvar Produto</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <a href="#" class="footer-logo" id="footer-branding-logo">
+          <i class="fa-solid fa-shirt"></i> Perfecto <span>Confecções</span>
+        </a>
+        <p class="footer-desc">Fabricação de vestuário de alta durabilidade e estilo desde 2012. Vestindo o Brasil com excelência.</p>
+        <div class="footer-socials">
+          <a href="#" class="footer-social-btn flex-center" id="social-instagram" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="footer-social-btn flex-center" id="social-facebook" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" class="footer-social-btn flex-center" id="social-whatsapp" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-col">
+        <h3>Links Rápidos</h3>
+        <ul class="footer-links">
+          <li><a href="#catalog-section">Catálogo</a></li>
+          <li><a href="#features-section">Diferenciais</a></li>
+          <li><a href="#" id="footer-admin-trigger">Painel do Lojista</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h3>Atendimento</h3>
+        <ul class="footer-links">
+          <li>Segunda a Sexta: 8h às 18h</li>
+          <li>Sábado: 8h às 12h</li>
+          <li>Suporte pós-venda garantido</li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h3>Localização e Contato</h3>
+        <div class="footer-contact-item">
+          <i class="fa-solid fa-location-dot"></i>
+          <span id="footer-text-address">Rua Têxtil, 450, Distrito Industrial - Americana/SP</span>
+        </div>
+        <div class="footer-contact-item">
+          <i class="fa-solid fa-envelope"></i>
+          <span id="footer-text-email">contato@perfectoconfeccoes.com.br</span>
+        </div>
+        <div class="footer-contact-item">
+          <i class="fa-solid fa-phone"></i>
+          <span id="footer-text-phone">+55 (19) 3456-7890</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Perfecto Confecções. Todos os direitos reservados. CNPJ: 12.345.678/0001-99</p>
+      <div class="footer-bottom-links">
+        <a href="#">Termos de Uso</a>
+        <a href="#">Política de Privacidade</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- App logic JavaScript -->
+  <script src="app.js"></script>
+</body>
+</html>

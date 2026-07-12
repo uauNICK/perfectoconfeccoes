@@ -98,7 +98,9 @@ function initState() {
 
   const localSettings = localStorage.getItem("perfecto_settings");
   if (localSettings) {
-    settings = JSON.parse(localSettings);
+    settings = { ...INITIAL_SETTINGS, ...JSON.parse(localSettings) };
+    // Save it back to ensure missing fields are now persisted
+    localStorage.setItem("perfecto_settings", JSON.stringify(settings));
   } else {
     settings = { ...INITIAL_SETTINGS };
     localStorage.setItem("perfecto_settings", JSON.stringify(settings));

@@ -14,7 +14,7 @@
   <!-- Header -->
   <header id="header">
     <div class="container nav-container">
-      <a href="#" class="logo" id="logo-branding">
+      <a href="#" class="logo" id="logo-branding" data-nav="home">
         <i class="fa-solid fa-shirt"></i> Perfecto <span>Confecções</span>
       </a>
       
@@ -630,11 +630,11 @@
               <div class="checkout-form-group">
                 <div class="form-field">
                   <label for="settings-logo-height-header">Altura do Logo no Cabeçalho (px)</label>
-                  <input type="number" id="settings-logo-height-header" min="20" max="250" placeholder="60">
+                  <input type="number" id="settings-logo-height-header" min="20" max="800" placeholder="60">
                 </div>
                 <div class="form-field">
                   <label for="settings-logo-height-footer">Altura do Logo no Rodapé (px)</label>
-                  <input type="number" id="settings-logo-height-footer" min="20" max="350" placeholder="100">
+                  <input type="number" id="settings-logo-height-footer" min="20" max="1000" placeholder="100">
                 </div>
               </div>
               <div class="form-field" style="margin-bottom: 15px;">
@@ -701,10 +701,15 @@
             </select>
           </div>
           <div class="form-field">
-            <label for="edit-product-image-file">Importar Foto do Produto (Arquivo)</label>
-            <input type="file" id="edit-product-image-file" accept="image/*">
-            <input type="hidden" id="edit-product-image-base64">
+            <label for="edit-product-stock">Estoque Disponível</label>
+            <input type="number" id="edit-product-stock" required min="0" placeholder="Ex: 50">
           </div>
+        </div>
+        
+        <div class="form-field">
+          <label for="edit-product-image-file">Importar Foto do Produto (Arquivo)</label>
+          <input type="file" id="edit-product-image-file" accept="image/*">
+          <input type="hidden" id="edit-product-image-base64">
         </div>
         
         <div class="checkout-form-group" style="margin-top: 10px;">
@@ -718,21 +723,8 @@
         </div>
 
         <div class="form-field">
-          <label>Tamanhos Disponíveis</label>
-          <div class="product-options-flex" style="margin-top: 5px;">
-            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--text-secondary); cursor: pointer;">
-              <input type="checkbox" name="edit-sizes" value="P" checked style="width: auto; padding: 0;"> P
-            </label>
-            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--text-secondary); cursor: pointer;">
-              <input type="checkbox" name="edit-sizes" value="M" checked style="width: auto; padding: 0;"> M
-            </label>
-            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--text-secondary); cursor: pointer;">
-              <input type="checkbox" name="edit-sizes" value="G" checked style="width: auto; padding: 0;"> G
-            </label>
-            <label style="display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--text-secondary); cursor: pointer;">
-              <input type="checkbox" name="edit-sizes" value="GG" checked style="width: auto; padding: 0;"> GG
-            </label>
-          </div>
+          <label for="edit-product-sizes-text">Tamanhos Disponíveis (Separados por vírgula)</label>
+          <input type="text" id="edit-product-sizes-text" required placeholder="Ex: P, M, G, GG ou 38, 40, 42, 44">
         </div>
         
         <div class="form-field">
@@ -776,7 +768,7 @@
   <footer>
     <div class="container footer-grid">
       <div class="footer-col">
-        <a href="#" class="footer-logo" id="footer-branding-logo">
+        <a href="#" class="logo footer-logo" id="footer-branding-logo" data-nav="home">
           <i class="fa-solid fa-shirt"></i> Perfecto <span>Confecções</span>
         </a>
         <p class="footer-desc" id="footer-text-about">Fabricação de vestuário de alta durabilidade e estilo desde 2012. Vestindo o Brasil com excelência.</p>

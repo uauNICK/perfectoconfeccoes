@@ -12,7 +12,10 @@ const INITIAL_PRODUCTS = [
     image: "assets/images/camisa_polo.png",
     description: "Camisa polo clássica confeccionada em algodão Pima peruano legítimo. Fibra nobre que garante toque extremamente macio, alta durabilidade, brilho natural e frescor ideal. Possui peitilho reforçado com botões perolados e modelagem semi-ajustada premium.",
     isNew: true,
-    isPromo: false
+    isPromo: false,
+    stock: 60,
+    reserved: 0,
+    sold: 0
   },
   {
     id: "p2",
@@ -26,7 +29,10 @@ const INITIAL_PRODUCTS = [
     image: "assets/images/moletom.png",
     description: "Moletom pesado com felpa interna (3 cabos), perfeito para dias frios. Modelagem canguru com capuz ajustável por cordão, bolso frontal espaçoso, e punhos e barra em ribana elástica para melhor isolamento térmico. Costura dupla ombro a ombro.",
     isNew: false,
-    isPromo: true
+    isPromo: true,
+    stock: 45,
+    reserved: 0,
+    sold: 0
   },
   {
     id: "p3",
@@ -40,7 +46,10 @@ const INITIAL_PRODUCTS = [
     image: "assets/images/calca_jeans.png",
     description: "Calça jeans modelagem Slim Fit com elastano para máximo conforto e mobilidade. Lavação artesanal com leves marcações de desgaste que dão um tom moderno e sofisticado. Aviamentos personalizados em cobre e costuras internas super resistentes.",
     isNew: false,
-    isPromo: false
+    isPromo: false,
+    stock: 30,
+    reserved: 0,
+    sold: 0
   },
   {
     id: "p4",
@@ -54,7 +63,10 @@ const INITIAL_PRODUCTS = [
     image: "assets/images/camiseta_basica.png",
     description: "Camiseta básica gola careca, confeccionada em malha 100% Algodão Penteado Fio 30.1. Passa por processo de amaciamento que confere um toque aveludado e evita encolhimento pós-lavagem. Essencial para compor visuais versáteis no dia a dia.",
     isNew: true,
-    isPromo: true
+    isPromo: true,
+    stock: 80,
+    reserved: 0,
+    sold: 0
   }
 ];
 
@@ -97,6 +109,13 @@ function initState() {
   const localProducts = localStorage.getItem("perfecto_products");
   if (localProducts) {
     products = JSON.parse(localProducts);
+    // Schema migration for stock controls
+    products.forEach(p => {
+      if (p.stock === undefined) p.stock = 60;
+      if (p.reserved === undefined) p.reserved = 0;
+      if (p.sold === undefined) p.sold = 0;
+    });
+    localStorage.setItem("perfecto_products", JSON.stringify(products));
   } else {
     products = [...INITIAL_PRODUCTS];
     localStorage.setItem("perfecto_products", JSON.stringify(products));
@@ -318,18 +337,21 @@ function renderCatalog() {
     const displayPrice = currentViewMode === "wholesale" ? product.priceWholesale : product.priceRetail;
     const oldPrice = currentViewMode === "retail" && product.isPromo ? product.priceRetail * 1.25 : null;
 
+    const isEsgotado = (product.stock || 0) <= 0;
+
     card.innerHTML = `
-      <div class="product-card-visual">
+      <div class="product-card-visual" style="${isEsgotado ? 'opacity: 0.8;' : ''}">
         <img src="${product.image}" alt="${product.name}" class="product-card-image" onerror="this.src='https://placehold.co/400x500/131b2e/f8fafc?text=Vestuario'">
         <div class="product-card-badges">
-          ${product.isNew ? '<span class="product-badge-new">Novo</span>' : ''}
-          ${oldPrice ? '<span class="product-badge-discount">Promoção</span>' : ''}
+          ${isEsgotado ? '<span class="product-badge-discount" style="background: var(--accent-rose);">Esgotado</span>' : ''}
+          ${product.isNew && !isEsgotado ? '<span class="product-badge-new">Novo</span>' : ''}
+          ${oldPrice && !isEsgotado ? '<span class="product-badge-discount">Promoção</span>' : ''}
         </div>
         <div class="product-card-actions">
           <button class="product-action-btn flex-center quick-view-btn" data-id="${product.id}" title="Espiar Produto">
             <i class="fa-solid fa-eye"></i>
           </button>
-          <button class="product-action-btn flex-center quick-add-btn" data-id="${product.id}" title="Adicionar ao Carrinho">
+          <button class="product-action-btn flex-center quick-add-btn" data-id="${product.id}" title="Adicionar ao Carrinho" ${isEsgotado ? 'disabled style="opacity: 0.4; cursor: not-allowed;"' : ''}>
             <i class="fa-solid fa-cart-plus"></i>
           </button>
         </div>
@@ -342,12 +364,19 @@ function renderCatalog() {
           <span class="price-main">${formatCurrency(displayPrice)}</span>
           <span class="price-wholesale-label">${currentViewMode === "wholesale" ? 'Atacado' : 'Varejo'}</span>
         </div>
+        <div style="font-size: 0.75rem; margin-top: 6px; color: ${isEsgotado ? 'var(--accent-rose)' : 'var(--text-secondary)'}; font-weight: 500;">
+          ${isEsgotado ? 'Esgotado' : `Estoque: ${product.stock} un.`}
+        </div>
       </div>
     `;
 
     // Quick add click
     card.querySelector(".quick-add-btn").addEventListener("click", (e) => {
       e.stopPropagation();
+      if (isEsgotado) {
+        alert("Desculpe, este produto está esgotado.");
+        return;
+      }
       // Default to first size and color
       addToCart(product.id, product.sizes[0], product.colorNames ? product.colorNames[0] : "Padrão", 1);
     });
@@ -401,6 +430,10 @@ function openProductModal(productId) {
     colorsHTML = `<span style="font-size: 0.85rem; color: var(--text-secondary);">Cor Única</span>`;
   }
 
+  const isEsgotado = (product.stock || 0) <= 0;
+  const stockColor = (product.stock || 0) > 10 ? 'var(--success)' : ((product.stock || 0) > 0 ? 'var(--accent-gold)' : 'var(--accent-rose)');
+  const stockText = isEsgotado ? 'Produto Esgotado' : ((product.stock || 0) <= 10 ? `Apenas ${product.stock} unidades disponíveis!` : `Estoque: ${product.stock} unidades disponíveis`);
+
   modalContent.innerHTML = `
     <div class="product-detail-image-wrapper">
       <img src="${product.image}" alt="${product.name}" onerror="this.src='https://placehold.co/400x500/131b2e/f8fafc?text=Vestuario'">
@@ -417,6 +450,13 @@ function openProductModal(productId) {
       
       <p class="product-detail-desc">${product.description}</p>
       
+      <div class="product-option-group" style="margin-bottom: 15px; margin-top: -5px;">
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 500; color: ${stockColor};">
+          <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background-color: ${stockColor};"></span>
+          ${stockText}
+        </div>
+      </div>
+      
       <div class="product-option-group">
         <h4 class="product-option-title">Selecione o Tamanho</h4>
         <div class="product-options-flex size-options-container">
@@ -432,12 +472,14 @@ function openProductModal(productId) {
       </div>
       
       <div class="detail-actions">
-        <div class="quantity-selector">
+        <div class="quantity-selector" style="${isEsgotado ? 'opacity: 0.4; pointer-events: none;' : ''}">
           <button class="quantity-btn flex-center" id="modal-qty-minus"><i class="fa-solid fa-minus"></i></button>
           <span class="quantity-val" id="modal-qty-val">1</span>
           <button class="quantity-btn flex-center" id="modal-qty-plus"><i class="fa-solid fa-plus"></i></button>
         </div>
-        <button class="btn-primary btn-add-cart" id="modal-add-to-cart-btn"><i class="fa-solid fa-bag-shopping"></i> Adicionar ao Carrinho</button>
+        <button class="btn-primary btn-add-cart" id="modal-add-to-cart-btn" ${isEsgotado ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>
+          <i class="fa-solid fa-bag-shopping"></i> ${isEsgotado ? 'Esgotado' : 'Adicionar ao Carrinho'}
+        </button>
       </div>
     </div>
   `;
@@ -502,8 +544,19 @@ function addToCart(productId, size, color, quantity) {
   // Check if item already exists in cart with same size and color
   const existingIdx = cart.findIndex(item => item.id === productId && item.size === size && item.color === color);
   
+  let newQuantity = quantity;
   if (existingIdx > -1) {
-    cart[existingIdx].quantity += quantity;
+    newQuantity += cart[existingIdx].quantity;
+  }
+
+  // Validate against stock
+  if (newQuantity > (product.stock || 0)) {
+    alert(`Desculpe! Temos apenas ${product.stock} unidades de "${product.name}" em estoque.`);
+    return;
+  }
+
+  if (existingIdx > -1) {
+    cart[existingIdx].quantity = newQuantity;
   } else {
     cart.push({
       id: product.id,
@@ -532,6 +585,16 @@ function removeFromCart(index) {
 }
 
 function updateCartQty(index, delta) {
+  const item = cart[index];
+  const product = products.find(p => p.id === item.id);
+  
+  if (product && delta > 0) {
+    if (item.quantity + delta > (product.stock || 0)) {
+      alert(`Desculpe! Temos apenas ${product.stock} unidades de "${product.name}" em estoque.`);
+      return;
+    }
+  }
+
   cart[index].quantity += delta;
   
   if (cart[index].quantity <= 0) {
@@ -842,6 +905,22 @@ function handleCheckoutSubmit(e) {
     items: [...cart],
     total: subtotal
   };
+
+  // Subtract stock from catalog and update reserved / sold counters
+  cart.forEach(item => {
+    const prod = products.find(p => p.id === item.id);
+    if (prod) {
+      prod.stock = Math.max(0, (prod.stock || 0) - item.quantity);
+      if (status === "Pago (Aprovado)") {
+        prod.sold = (prod.sold || 0) + item.quantity;
+      } else {
+        prod.reserved = (prod.reserved || 0) + item.quantity;
+      }
+    }
+  });
+  saveState("perfecto_products", products);
+  renderCatalog();
+  renderAdminProducts();
 
   // Add order to local list
   orders.unshift(newOrder);
@@ -1200,6 +1279,11 @@ function renderAdminProducts() {
         <span style="font-size: 0.75rem; color: var(--text-muted); display: block;">Atacado</span>
         ${formatCurrency(p.priceWholesale)}
       </div>
+      <div class="admin-product-stock-details" style="font-size: 0.8rem; color: var(--text-secondary); line-height: 1.4; text-align: left; min-width: 110px;">
+        <div>Estoque: <strong style="color: var(--success);">${p.stock}</strong></div>
+        <div>Reservado: <strong style="color: var(--accent-gold);">${p.reserved || 0}</strong></div>
+        <div>Vendido: <strong style="color: var(--text-primary);">${p.sold || 0}</strong></div>
+      </div>
       <div class="admin-product-actions">
         <button class="admin-btn-icon edit" data-id="${p.id}" title="Editar"><i class="fa-solid fa-pen-to-square"></i></button>
         <button class="admin-btn-icon delete" data-id="${p.id}" title="Excluir"><i class="fa-solid fa-trash-can"></i></button>
@@ -1222,6 +1306,7 @@ function openEditProductModal(productId) {
   document.getElementById("edit-product-price-retail").value = p.priceRetail;
   document.getElementById("edit-product-price-wholesale").value = p.priceWholesale;
   document.getElementById("edit-product-category").value = p.category;
+  document.getElementById("edit-product-stock").value = p.stock || 0;
   document.getElementById("edit-product-desc").value = p.description;
 
   const isCustomImg = p.image.startsWith("data:image/");
@@ -1244,11 +1329,8 @@ function openEditProductModal(productId) {
     previewImg.style.display = "none";
   }
 
-  // Sizes checkbox
-  const checkBoxes = document.getElementsByName("edit-sizes");
-  checkBoxes.forEach(cb => {
-    cb.checked = p.sizes.includes(cb.value);
-  });
+  // Populate sizes comma-separated string
+  document.getElementById("edit-product-sizes-text").value = p.sizes ? p.sizes.join(", ") : "";
 
   document.getElementById("admin-modal-title").innerText = "Editar Produto";
   
@@ -1273,6 +1355,7 @@ function handleProductFormSubmit(e) {
   const priceRetail = parseFloat(document.getElementById("edit-product-price-retail").value);
   const priceWholesale = parseFloat(document.getElementById("edit-product-price-wholesale").value);
   const category = document.getElementById("edit-product-category").value;
+  const stock = parseInt(document.getElementById("edit-product-stock").value) || 0;
   
   let image = "";
   const base64Val = document.getElementById("edit-product-image-base64").value;
@@ -1289,15 +1372,12 @@ function handleProductFormSubmit(e) {
 
   const description = document.getElementById("edit-product-desc").value;
 
-  // Selected sizes
-  const sizes = [];
-  const checkBoxes = document.getElementsByName("edit-sizes");
-  checkBoxes.forEach(cb => {
-    if (cb.checked) sizes.push(cb.value);
-  });
+  // Parse comma-separated sizes from text field
+  const sizesInputVal = document.getElementById("edit-product-sizes-text").value;
+  const sizes = sizesInputVal.split(",").map(s => s.trim()).filter(s => s !== "");
 
   if (sizes.length === 0) {
-    alert("Por favor, selecione pelo menos um tamanho para o produto.");
+    alert("Por favor, insira pelo menos um tamanho para o produto.");
     return;
   }
 
@@ -1313,7 +1393,8 @@ function handleProductFormSubmit(e) {
         category,
         image,
         description,
-        sizes
+        sizes,
+        stock
       };
       alert("Produto atualizado com sucesso!");
     }
@@ -1335,7 +1416,10 @@ function handleProductFormSubmit(e) {
       colors,
       colorNames,
       isNew: true,
-      isPromo: false
+      isPromo: false,
+      stock,
+      reserved: 0,
+      sold: 0
     });
     alert("Produto adicionado com sucesso!");
   }
@@ -1371,7 +1455,40 @@ function renderAdminOrders() {
     });
 
     const isPaid = order.paymentStatus.toLowerCase().includes("pago");
-    const badgeClass = isPaid ? "pago" : "pendente";
+    const isCancelado = order.paymentStatus.toLowerCase().includes("cancelado");
+    const isPendente = !isPaid && !isCancelado;
+    
+    let badgeColor = "var(--accent-gold)";
+    let badgeBg = "rgba(245, 158, 11, 0.15)";
+    if (isPaid) {
+      badgeColor = "var(--success)";
+      badgeBg = "rgba(16, 185, 129, 0.15)";
+    } else if (isCancelado) {
+      badgeColor = "var(--accent-rose)";
+      badgeBg = "rgba(239, 68, 68, 0.15)";
+    }
+
+    let actionsHTML = "";
+    if (isPendente) {
+      actionsHTML = `
+        <div class="admin-order-actions-bar" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--glass-border); display: flex; gap: 10px; justify-content: flex-end;">
+          <button class="btn-primary approve-order-btn" data-id="${order.id}" style="padding: 6px 12px; font-size: 0.75rem; height: auto; background: var(--success); border-color: var(--success);"><i class="fa-solid fa-check"></i> Confirmar Pagamento</button>
+          <button class="btn-secondary cancel-order-btn" data-id="${order.id}" style="padding: 6px 12px; font-size: 0.75rem; height: auto; border-color: var(--accent-rose); color: var(--accent-rose);"><i class="fa-solid fa-xmark"></i> Cancelar</button>
+        </div>
+      `;
+    } else if (isCancelado) {
+      actionsHTML = `
+        <div class="admin-order-actions-bar" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--glass-border); display: flex; gap: 10px; justify-content: flex-end;">
+          <span style="font-size: 0.75rem; color: var(--accent-rose); font-weight: 500;"><i class="fa-solid fa-ban"></i> Cancelado (Itens devolvidos ao estoque)</span>
+        </div>
+      `;
+    } else {
+      actionsHTML = `
+        <div class="admin-order-actions-bar" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--glass-border); display: flex; gap: 10px; justify-content: flex-end;">
+          <span style="font-size: 0.75rem; color: var(--success); font-weight: 500;"><i class="fa-solid fa-circle-check"></i> Pagamento Aprovado (Pedido Finalizado)</span>
+        </div>
+      `;
+    }
 
     card.innerHTML = `
       <div class="admin-order-header">
@@ -1379,7 +1496,7 @@ function renderAdminOrders() {
           <span class="admin-order-id">${order.id}</span>
           <span class="admin-order-date">${order.date}</span>
         </div>
-        <span class="order-badge-status ${badgeClass}">${order.paymentStatus}</span>
+        <span class="order-badge-status" style="background: ${badgeBg}; color: ${badgeColor}; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 600;">${order.paymentStatus}</span>
       </div>
       <div class="admin-order-details">
         <div class="admin-order-client-info">
@@ -1398,10 +1515,70 @@ function renderAdminOrders() {
           <div class="admin-order-total-price">${formatCurrency(order.total)}</div>
         </div>
       </div>
+      ${actionsHTML}
     `;
+
+    if (isPendente) {
+      card.querySelector(".approve-order-btn").addEventListener("click", () => {
+        approveOrder(order.id);
+      });
+      card.querySelector(".cancel-order-btn").addEventListener("click", () => {
+        cancelOrder(order.id);
+      });
+    }
 
     container.appendChild(card);
   });
+}
+
+function approveOrder(orderId) {
+  const order = orders.find(o => o.id === orderId);
+  if (!order) return;
+  
+  if (confirm(`Confirmar o pagamento do pedido ${orderId}?`)) {
+    order.paymentStatus = "Pago (Aprovado)";
+    
+    // Convert reserved items to sold items
+    order.items.forEach(item => {
+      const prod = products.find(p => p.id === item.id);
+      if (prod) {
+        prod.reserved = Math.max(0, (prod.reserved || 0) - item.quantity);
+        prod.sold = (prod.sold || 0) + item.quantity;
+      }
+    });
+    
+    saveState("perfecto_orders", orders);
+    saveState("perfecto_products", products);
+    renderCatalog();
+    renderAdminProducts();
+    renderAdminOrders();
+    alert(`Pagamento do pedido ${orderId} confirmado com sucesso!`);
+  }
+}
+
+function cancelOrder(orderId) {
+  const order = orders.find(o => o.id === orderId);
+  if (!order) return;
+  
+  if (confirm(`Tem certeza que deseja CANCELAR o pedido ${orderId}? Os produtos retornarão para o estoque disponível.`)) {
+    order.paymentStatus = "Cancelado";
+    
+    // Return items to available stock
+    order.items.forEach(item => {
+      const prod = products.find(p => p.id === item.id);
+      if (prod) {
+        prod.stock = (prod.stock || 0) + item.quantity;
+        prod.reserved = Math.max(0, (prod.reserved || 0) - item.quantity);
+      }
+    });
+    
+    saveState("perfecto_orders", orders);
+    saveState("perfecto_products", products);
+    renderCatalog();
+    renderAdminProducts();
+    renderAdminOrders();
+    alert(`Pedido ${orderId} cancelado. Produtos devolvidos ao estoque.`);
+  }
 }
 
 // Global UI Layout Binding (navbar, search, cart toggle)

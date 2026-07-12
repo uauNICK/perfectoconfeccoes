@@ -966,6 +966,49 @@ function initAdminUI() {
     });
   });
 
+  // Logo & Favicon local file reader uploads
+  document.getElementById("settings-logo-file").addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      document.getElementById("settings-logo-url").value = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+  
+  document.getElementById("settings-favicon-file").addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      document.getElementById("settings-favicon-url").value = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+  
+  // Custom Product Image selector toggle & file reader
+  const productImageSelect = document.getElementById("edit-product-image");
+  const productFileContainer = document.getElementById("edit-product-file-container");
+  
+  productImageSelect.addEventListener("change", (e) => {
+    if (e.target.value === "custom") {
+      productFileContainer.style.display = "block";
+    } else {
+      productFileContainer.style.display = "none";
+    }
+  });
+  
+  document.getElementById("edit-product-image-file").addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      document.getElementById("edit-product-image-base64").value = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
   // Settings form submit
   document.getElementById("admin-settings-form").addEventListener("submit", (e) => {
     e.preventDefault();
@@ -1093,8 +1136,22 @@ function openEditProductModal(productId) {
   document.getElementById("edit-product-price-retail").value = p.priceRetail;
   document.getElementById("edit-product-price-wholesale").value = p.priceWholesale;
   document.getElementById("edit-product-category").value = p.category;
-  document.getElementById("edit-product-image").value = p.image;
   document.getElementById("edit-product-desc").value = p.description;
+
+  const isCustomImg = p.image.startsWith("data:image/");
+  const imgSelect = document.getElementById("edit-product-image");
+  const fileContainer = document.getElementById("edit-product-file-container");
+  const base64Input = document.getElementById("edit-product-image-base64");
+  
+  if (isCustomImg) {
+    imgSelect.value = "custom";
+    fileContainer.style.display = "block";
+    base64Input.value = p.image;
+  } else {
+    imgSelect.value = p.image;
+    fileContainer.style.display = "none";
+    base64Input.value = "";
+  }
 
   // Sizes checkbox
   const checkBoxes = document.getElementsByName("edit-sizes");
@@ -1125,7 +1182,17 @@ function handleProductFormSubmit(e) {
   const priceRetail = parseFloat(document.getElementById("edit-product-price-retail").value);
   const priceWholesale = parseFloat(document.getElementById("edit-product-price-wholesale").value);
   const category = document.getElementById("edit-product-category").value;
-  const image = document.getElementById("edit-product-image").value;
+  
+  const imageSelectVal = document.getElementById("edit-product-image").value;
+  let image = imageSelectVal;
+  if (imageSelectVal === "custom") {
+    image = document.getElementById("edit-product-image-base64").value;
+    if (!image) {
+      alert("Por favor, selecione um arquivo de imagem do computador para o produto.");
+      return;
+    }
+  }
+
   const description = document.getElementById("edit-product-desc").value;
 
   // Selected sizes

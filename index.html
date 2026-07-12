@@ -593,12 +593,22 @@
                 </div>
                 <div class="form-field">
                   <label for="settings-logo-url">URL da Logomarca (Imagem)</label>
-                  <input type="text" id="settings-logo-url" placeholder="Deixe em branco para usar texto">
+                  <input type="text" id="settings-logo-url" placeholder="URL ou envie arquivo abaixo">
+                </div>
+              </div>
+              <div class="checkout-form-group">
+                <div class="form-field">
+                  <label for="settings-logo-file">Enviar Logomarca do Computador</label>
+                  <input type="file" id="settings-logo-file" accept="image/*">
+                </div>
+                <div class="form-field">
+                  <label for="settings-favicon-file">Enviar Favicon do Computador</label>
+                  <input type="file" id="settings-favicon-file" accept="image/*">
                 </div>
               </div>
               <div class="form-field" style="margin-bottom: 15px;">
                 <label for="settings-favicon-url">URL do Ícone da Aba (Favicon)</label>
-                <input type="text" id="settings-favicon-url" placeholder="URL da imagem para o ícone">
+                <input type="text" id="settings-favicon-url" placeholder="URL do ícone ou envie acima">
               </div>
               
               <h4 style="font-size: 1rem; margin-top: 15px; color: var(--accent-gold); border-top: 1px solid var(--glass-border); padding-top: 15px;">Acesso ao Painel Lojista</h4>
@@ -660,14 +670,21 @@
             </select>
           </div>
           <div class="form-field">
-            <label for="edit-product-image">Imagem do Produto (URL)</label>
+            <label for="edit-product-image">Imagem do Produto</label>
             <select id="edit-product-image" required>
-              <option value="assets/images/camisa_polo.png">Polo Standard (assets/images/camisa_polo.png)</option>
-              <option value="assets/images/moletom.png">Moletom Canguru (assets/images/moletom.png)</option>
-              <option value="assets/images/calca_jeans.png">Calça Jeans Premium (assets/images/calca_jeans.png)</option>
-              <option value="assets/images/camiseta_basica.png">Camiseta Básica (assets/images/camiseta_basica.png)</option>
+              <option value="assets/images/camisa_polo.png">Polo Standard</option>
+              <option value="assets/images/moletom.png">Moletom Canguru</option>
+              <option value="assets/images/calca_jeans.png">Calça Jeans Premium</option>
+              <option value="assets/images/camiseta_basica.png">Camiseta Básica</option>
+              <option value="custom">-- Enviar Imagem Personalizada --</option>
             </select>
           </div>
+        </div>
+        
+        <div class="form-field" id="edit-product-file-container" style="display: none; margin-top: 10px;">
+          <label for="edit-product-image-file">Selecionar Imagem do Computador</label>
+          <input type="file" id="edit-product-image-file" accept="image/*">
+          <input type="hidden" id="edit-product-image-base64">
         </div>
 
         <div class="form-field">
